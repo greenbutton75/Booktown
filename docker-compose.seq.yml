@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  seq:
+    image: datalust/seq:latest
+    ports:
+      - "5340:80"
+#    volumes:
+#      - /datadrive:/data
+    environment:
+      - ACCEPT_EULA=Y

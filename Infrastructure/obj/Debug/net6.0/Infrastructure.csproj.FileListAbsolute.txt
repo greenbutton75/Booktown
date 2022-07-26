@@ -1,0 +1,12 @@
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.AssemblyReference.cache
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\obj\Debug\net6.0\Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\obj\Debug\net6.0\Infrastructure.AssemblyInfoInputs.cache
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\obj\Debug\net6.0\Infrastructure.AssemblyInfo.cs
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\obj\Debug\net6.0\Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\bin\Debug\net6.0\Infrastructure.deps.json
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\bin\Debug\net6.0\Infrastructure.dll
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\bin\Debug\net6.0\Infrastructure.pdb
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\obj\Debug\net6.0\Infrastructure.dll
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\obj\Debug\net6.0\refint\Infrastructure.dll
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\obj\Debug\net6.0\Infrastructure.pdb
+C:\Users\Valentin Kolesov\source\repos\Booktown\Infrastructure\obj\Debug\net6.0\ref\Infrastructure.dll

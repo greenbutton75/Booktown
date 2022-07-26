@@ -1,0 +1,79 @@
+
+
+Services
+
+Gateway
+	[Authorize] Create/check token
+	Retrieve UserDevices IDs for Notifications
+	Retrieve User IP to get GeoLocation (map in Kibana)
+	BFF aggregators (with gRPC)
+	Cash requests (InMemory)
+	Request limiting (Polly)
+	     
+Auth
+	AWS Cognito
+
+
+Orders
+	Saga coordinator
+	PostgreSQL as DB (EF)
+	MediatR
+	CQRS pattern
+	FluentValidator
+	UnitOfWork for transactions
+
+Basket
+	Redis as DB
+	gRPC for BFF aggregators?
+
+Catalog
+	Elastic as DB for Autocomplete, complex searches and FT search in all fields
+	gRPC for BFF aggregators?
+	OpenTelemetry (API controllers, Core, Elastic)
+
+Inventory
+	Redis as DB
+
+Shipment
+	Mongo as DB
+
+PriceCalculator
+	Saves special offers
+	Time limited discounts
+	Calculates final price
+	Get special offers for specific product
+	? as DB
+
+Recommendations
+	Stores ratings, buy facts, reviews
+	Get ratings, "ALSO BOUGHT", Reviews
+	Cassandra as graph DB
+	
+Logging
+	seq
+	APM (OpenTelemetry?)
+
+
+Notification service
+	Save UserDevices IDs
+	Deduplicate messages
+	Emulate sending by deleting old messages (TTL)
+	Redis as DB
+
+ServiceBus
+	Kafka
+
+
+For all services
+	Unit Testing
+	Functional Testing
+	HealthChecks for all services
+	Pagination
+	Swagger in Dev
+
+Good to have
+	SDK libs for project
+	CI/CD
+	K8s 
+	LB ?
+	Python scraping book store for realistic data
