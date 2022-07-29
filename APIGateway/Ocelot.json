@@ -1,0 +1,35 @@
+{
+   "Routes":[
+     {
+         "DownstreamPathTemplate":"accounts/v1/Login",
+         "DownstreamScheme":"http",
+         "DownstreamHostAndPorts":[
+            {
+               "Host":"localhost",
+               "Port":"5072"
+            }
+         ],
+         "UpstreamPathTemplate":"/Login",
+         "UpstreamHttpMethod":[
+            "POST"
+         ]
+      },
+      {
+         "DownstreamPathTemplate":"/api/Product",
+         "DownstreamScheme":"http",
+         "DownstreamHostAndPorts":[
+            {
+               "Host":"localhost",
+               "Port":"32345"
+            }
+         ],
+         "UpstreamPathTemplate":"/Product",
+         "UpstreamHttpMethod":[
+            "GET"
+         ]
+      }
+   ],
+  "GlobalConfiguration": {
+    "AdministrationPath": "/administration"
+  }
+}

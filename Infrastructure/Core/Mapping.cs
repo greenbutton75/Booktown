@@ -19,5 +19,6 @@ namespace Infrastructure.Core
 
             return result;
         }
+
     }
 }
