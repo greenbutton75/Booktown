@@ -1,5 +1,6 @@
 using Events;
 using Infrastructure.Core;
+using Infrastructure.MessageBrokers;
 using Inventory.Repositories;
 using StackExchange.Redis;
 
@@ -12,6 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddMessageBroker(builder.Configuration);
 builder.Services.AddCore(typeof(Program));
 
 builder.Services.AddTransient<IInventoryRepository, InventoryRepository>();
@@ -38,7 +40,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCore();
-app.UseSubscribeAllEvents();
+//app.UseSubscribeAllEvents();
 
 app.UseAuthorization();
 

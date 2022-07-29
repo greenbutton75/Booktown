@@ -15,7 +15,17 @@ namespace Infrastructure.MessageBrokers
             Configuration.GetSection(nameof(MessageBrokersOptions)).Bind(options);
             services.Configure<MessageBrokersOptions>(Configuration.GetSection(nameof(MessageBrokersOptions)));
 
-            return services.AddKafka(Configuration);
+            switch (options.MessageBrokerType.ToLowerInvariant())
+            {
+                //case "rabbitmq":
+                //    return services.AddRabbitMQ(Configuration);
+                case "kafka":
+                    return services.AddKafka(Configuration);
+                default:
+                    throw new Exception($"Message broker type '{options.MessageBrokerType}' is not supported");
+            }
+
+//            return services.AddKafka(Configuration);
         }
 
         public static IApplicationBuilder UseSubscribeEvent<T>(this IApplicationBuilder app) where T : IEvent

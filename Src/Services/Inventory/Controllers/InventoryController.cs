@@ -30,7 +30,11 @@ namespace Inventory.Controllers
         [HttpPost("Load")]
         public async Task<IActionResult> Load([FromBody] IReadOnlyList<InventoryItemDto> loadItems, CancellationToken cancellationToken)
         {
-            var items = Mapping.Map<IReadOnlyList<InventoryItemDto>, IReadOnlyList<InventoryItem>>(loadItems);
+            List<InventoryItem> items = new List<InventoryItem>();
+            foreach (var loadItem in loadItems)
+            {
+                items.Add(Mapping.Map<InventoryItemDto, InventoryItem>(loadItem));
+            }
 
             var command = new LoadCommand.Command(items);
 
@@ -39,9 +43,9 @@ namespace Inventory.Controllers
             return Ok();
         }
 
-
-        [HttpDelete("Spend"), Route("{id}/{quantity}")]
-        public async Task<IActionResult> DeleteMovie([FromRoute] string id, [FromHeader] int quantity, CancellationToken cancellationToken)
+        
+        [HttpGet("Spend/{id}/{quantity}")]
+        public async Task<IActionResult> Spend(string id, int quantity, CancellationToken cancellationToken)
         {
             var command = new SpendCommand.Command
             (
@@ -55,6 +59,7 @@ namespace Inventory.Controllers
 
             return Ok();
         }
+        
         /*
         [HttpGet("GetAll")]
         public async Task<ActionResult<GetAllQuery.Result>> Get(CancellationToken cancellationToken)
