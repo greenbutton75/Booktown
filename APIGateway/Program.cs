@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // env.ContentRootPath
-builder.Configuration.SetBasePath("C:\\Users\\Valentin Kolesov\\source\\repos\\Booktown\\APIGateway\\").AddJsonFile("Ocelot.json").AddEnvironmentVariables();
+builder.Configuration/*.SetBasePath("C:\\Users\\Valentin Kolesov\\source\\repos\\Booktown\\APIGateway\\")*/.AddJsonFile("Ocelot.json");//.AddEnvironmentVariables();
 builder.Services.AddOcelot();
 
 var app = builder.Build();
