@@ -12,20 +12,22 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // env.ContentRootPath
-builder.Configuration/*.SetBasePath("C:\\Users\\Valentin Kolesov\\source\\repos\\Booktown\\APIGateway\\")*/.AddJsonFile("Ocelot.json");//.AddEnvironmentVariables();
+builder.Configuration.AddJsonFile("Ocelot.json");//.AddEnvironmentVariables();
 builder.Services.AddOcelot();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+/*
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseAuthorization();
+*/
+//app.UseAuthorization();
 
-app.MapControllers();
+//app.MapControllers();
 
 app.UseMiddleware<ErrorWrapperMiddleware>();
 app.UseOcelot();

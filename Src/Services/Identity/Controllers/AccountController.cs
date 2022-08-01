@@ -23,11 +23,11 @@ namespace Identity.Controllers
             )
         {
             _userService = userService;
-            _logger = logger;   
+            _logger = logger;
         }
 
         [HttpPost("Signup")]
-        public async Task<IActionResult> Signup(SignupRequest model)
+        public async Task<ActionResult<AuthenticateResponse>> Signup(SignupRequest model)
         {
             var userModel = await _userService.Signup(model);
 
@@ -37,10 +37,12 @@ namespace Identity.Controllers
                 throw new AppException("Signup failed");
             }
 
-            return Ok(userModel);
+            var AuthenticateResponse = _userService.generateJwtToken(userModel);
+
+            return Ok(AuthenticateResponse);
         }
         [HttpPost("Login")]
-        public async Task<IActionResult> Login(LoginRequest model)
+        public async Task<ActionResult<AuthenticateResponse>> Login(LoginRequest model)
         {
             var AuthenticateResponse = await _userService.LogIn(model);
 

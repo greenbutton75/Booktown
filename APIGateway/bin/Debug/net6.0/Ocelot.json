@@ -1,7 +1,7 @@
 {
    "Routes":[
      {
-         "DownstreamPathTemplate":"accounts/v1/Login",
+         "DownstreamPathTemplate":"/accounts/v1/Login",
          "DownstreamScheme":"http",
          "DownstreamHostAndPorts":[
             {
