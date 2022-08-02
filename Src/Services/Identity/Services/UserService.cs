@@ -21,15 +21,18 @@ public class UserService : IUserService
     private readonly IMapper _mapper;
     private readonly AppSettings _appSettings;
     private readonly ILogger<UserService> _logger;
+    private readonly IFacebookAuthService _facebookAuthService;
+
 
     public UserService(SignInManager<CognitoUser> signInManager, UserManager<CognitoUser> userManager,
-        CognitoUserPool pool, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<UserService> logger)
+        CognitoUserPool pool, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<UserService> logger, IFacebookAuthService facebookAuthService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
         _pool = pool;
         _mapper = mapper;
         _appSettings = appSettings.Value;
+        _facebookAuthService = facebookAuthService;
         _logger = logger;
     }
 
@@ -63,7 +66,7 @@ public class UserService : IUserService
 
     public async Task<AuthenticateResponse?> LogIn(LoginRequest model)
     {
-        var result = await _signInManager.PasswordSignInAsync(model.Email,   model.Password, false, false);
+        var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
         if (!result.Succeeded)
         {
@@ -83,6 +86,42 @@ public class UserService : IUserService
         var token = generateJwtToken(user);
 
         return new AuthenticateResponse(user, token);
+    }
+
+    public async Task<AuthenticateResponse?> LogInWithFacebook(string token)
+    {
+        var validationResult = await _facebookAuthService.ValidateAccessTokenAsync(token);
+        if (validationResult is null || !validationResult.Data.IsValid) throw new AppException("token is invalid");
+
+        var userInfo = await _facebookAuthService.GetUserInfoAsync(token);
+
+        var cognitoUser = await ((CognitoUserManager<CognitoUser>)_userManager).FindByEmailAsync(userInfo.Email);
+
+        var userName = (userInfo.FirstName == userInfo.LastName) ? userInfo.FirstName : userInfo.FirstName + " " + userInfo.LastName;
+
+        // Create new one
+        if (cognitoUser is null)
+        {
+            var newUser = _pool.GetUser(userInfo.Email);
+
+            newUser.Attributes.Add(CognitoAttribute.Email.AttributeName, userInfo.Email);
+            newUser.Attributes.Add(CognitoAttribute.Name.AttributeName, userName);
+            var createdUser = await _userManager.CreateAsync(newUser);
+
+            if (!createdUser.Succeeded)
+                if (createdUser.Errors.Any()) throw new AppException(createdUser.Errors.FirstOrDefault().Description);
+        }
+
+        var user = new UserModel
+        {
+            Username = userName,
+            Email = userInfo.Email
+        };
+
+        // authentication successful so generate jwt token
+        var mytoken = generateJwtToken(user);
+
+        return new AuthenticateResponse(user, mytoken);
     }
 
     // helper methods

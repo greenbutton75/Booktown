@@ -48,6 +48,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+builder.Services.AddFacebookAuthService(builder.Configuration);
 builder.Services.AddResponseCaching();
 
 builder.Services.AddSwaggerGen(c => {

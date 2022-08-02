@@ -54,6 +54,19 @@ namespace Identity.Controllers
 
             return Ok(AuthenticateResponse);
         }
+        [HttpPost("LogInWithFacebook")]
+        public async Task<ActionResult<AuthenticateResponse>> LogInWithFacebook(string token)
+        {
+            var AuthenticateResponse = await _userService.LogInWithFacebook(token);
+
+            if (AuthenticateResponse == null)
+            {
+                _logger.LogError("Login Facebook failed");
+                throw new AppException("Login failed");
+            }
+
+            return Ok(AuthenticateResponse);
+        }
 
         [HttpGet]
         [Authorize]
