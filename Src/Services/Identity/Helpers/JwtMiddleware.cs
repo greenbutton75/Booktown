@@ -1,6 +1,7 @@
 namespace Identity.Helpers;
 
 using Identity.Models;
+using Identity.Services;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -10,11 +11,12 @@ public class JwtMiddleware
 {
     private readonly RequestDelegate _next;
     private readonly AppSettings _appSettings;
+    private readonly ITokenService _tokenService;
 
-    public JwtMiddleware(RequestDelegate next, IOptions<AppSettings> appSettings)
+    public JwtMiddleware(RequestDelegate next, ITokenService tokenService)
     {
         _next = next;
-        _appSettings = appSettings.Value;
+        _tokenService = tokenService;
     }
 
     public async Task Invoke(HttpContext context)
@@ -31,27 +33,8 @@ public class JwtMiddleware
     {
         try
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
-            tokenHandler.ValidateToken(token, new TokenValidationParameters
-            {
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                // set clockskew to zero so tokens expire exactly at token expiration time (instead of 5 minutes later)
-                ClockSkew = TimeSpan.Zero
-            }, out SecurityToken validatedToken);
-
-            var jwtToken = (JwtSecurityToken)validatedToken;
-            var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;
-            var userName = jwtToken.Claims.First(x => x.Type == "name").Value;
-
             // attach user to context on successful jwt validation
-            context.Items["User"] = new UserModel {
-	            Username = userName,
-	            Email= userEmail
-        };
+            context.Items["User"] = _tokenService.ValidateJwtToken(token);
         }
         catch
         {

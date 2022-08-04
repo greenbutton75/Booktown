@@ -15,14 +15,17 @@ namespace Identity.Controllers
     {
 
         private readonly IUserService _userService;
+        private readonly ITokenService _tokenService;
         private readonly ILogger<AccountController> _logger;
 
         public AccountController(
             IUserService userService,
+            ITokenService tokenService,
             ILogger<AccountController> logger
             )
         {
             _userService = userService;
+            _tokenService = tokenService;
             _logger = logger;
         }
 
@@ -37,9 +40,17 @@ namespace Identity.Controllers
                 throw new AppException("Signup failed");
             }
 
-            var AuthenticateResponse = _userService.generateJwtToken(userModel);
+            var tokenModel = await _tokenService.GenerateJwtTokens(userModel);
 
-            return Ok(AuthenticateResponse);
+            return Ok(new AuthenticateResponse(
+                new UserModel
+                {
+                    Email = userModel.Email,
+                    Username = userModel.Username
+                },
+                tokenModel.Token!,
+                tokenModel.RefreshToken!
+            ));
         }
         [HttpPost("Login")]
         public async Task<ActionResult<AuthenticateResponse>> Login(LoginRequest model)
@@ -54,6 +65,21 @@ namespace Identity.Controllers
 
             return Ok(AuthenticateResponse);
         }
+        [HttpPost("RevokeRefreshTokens")]
+        public async Task<ActionResult> RevokeRefreshTokens(string token)
+        {
+            await _tokenService.RevokeRefreshTokens(token);
+
+            return Ok();
+        }
+        [HttpPost("GetRefreshToken")]
+        public async Task<ActionResult<TokenModel>> GetRefreshToken(TokenModel tokenModel)
+        {
+            var tokenModelResponse = await _tokenService.GetRefreshToken(tokenModel);
+
+            return Ok(tokenModelResponse);
+        }
+
         [HttpPost("LogInWithFacebook")]
         public async Task<ActionResult<AuthenticateResponse>> LogInWithFacebook(string token)
         {
@@ -73,7 +99,7 @@ namespace Identity.Controllers
         [ResponseCache(Duration = 10)]
         public IActionResult Get()
         {
-            return new JsonResult(new { name = "1", val = "3" , t = DateTime.Now.ToString() });
+            return new JsonResult(new { name = "1", val = "3", t = DateTime.Now.ToString() });
         }
     }
 }

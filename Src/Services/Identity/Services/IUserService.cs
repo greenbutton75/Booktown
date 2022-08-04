@@ -10,6 +10,5 @@ public interface IUserService
 
     public Task<AuthenticateResponse?> LogInWithFacebook(string token);
 
-    public string generateJwtToken(UserModel user);
 }
 

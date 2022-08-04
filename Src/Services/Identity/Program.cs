@@ -34,6 +34,8 @@ builder.Services.AddCognitoIdentity(config =>
     };
 });
 
+
+builder.Services.AddSingleton<ITokenService, TokenService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Host.UseSerilog();
 

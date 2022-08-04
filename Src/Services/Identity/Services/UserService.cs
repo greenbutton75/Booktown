@@ -22,10 +22,10 @@ public class UserService : IUserService
     private readonly AppSettings _appSettings;
     private readonly ILogger<UserService> _logger;
     private readonly IFacebookAuthService _facebookAuthService;
-
+    private readonly ITokenService _tokenService;
 
     public UserService(SignInManager<CognitoUser> signInManager, UserManager<CognitoUser> userManager,
-        CognitoUserPool pool, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<UserService> logger, IFacebookAuthService facebookAuthService)
+        CognitoUserPool pool, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<UserService> logger, IFacebookAuthService facebookAuthService, ITokenService tokenService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
@@ -33,6 +33,7 @@ public class UserService : IUserService
         _mapper = mapper;
         _appSettings = appSettings.Value;
         _facebookAuthService = facebookAuthService;
+        _tokenService = tokenService;
         _logger = logger;
     }
 
@@ -83,17 +84,17 @@ public class UserService : IUserService
         };
 
         // authentication successful so generate jwt token
-        var token = generateJwtToken(user);
+        var tokenModel = await _tokenService.GenerateJwtTokens(user);
 
-        return new AuthenticateResponse(user, token);
+        return new AuthenticateResponse(user, tokenModel.Token!, tokenModel.RefreshToken!);
     }
 
-    public async Task<AuthenticateResponse?> LogInWithFacebook(string token)
+    public async Task<AuthenticateResponse?> LogInWithFacebook(string fbtoken)
     {
-        var validationResult = await _facebookAuthService.ValidateAccessTokenAsync(token);
+        var validationResult = await _facebookAuthService.ValidateAccessTokenAsync(fbtoken);
         if (validationResult is null || !validationResult.Data.IsValid) throw new AppException("token is invalid");
 
-        var userInfo = await _facebookAuthService.GetUserInfoAsync(token);
+        var userInfo = await _facebookAuthService.GetUserInfoAsync(fbtoken);
 
         var cognitoUser = await ((CognitoUserManager<CognitoUser>)_userManager).FindByEmailAsync(userInfo.Email);
 
@@ -119,26 +120,8 @@ public class UserService : IUserService
         };
 
         // authentication successful so generate jwt token
-        var mytoken = generateJwtToken(user);
+        var tokenModel = await _tokenService.GenerateJwtTokens(user);
 
-        return new AuthenticateResponse(user, mytoken);
+        return new AuthenticateResponse(user, tokenModel.Token!, tokenModel.RefreshToken!);
     }
-
-    // helper methods
-
-    public string generateJwtToken(UserModel user)
-    {
-        // generate token that is valid for 7 days
-        var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
-        var tokenDescriptor = new SecurityTokenDescriptor
-        {
-            Subject = new ClaimsIdentity(new[] { new Claim("name", user.Username.ToString()), new Claim("email", user.Email.ToString()) }),
-            Expires = DateTime.UtcNow.AddDays(7),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-        };
-        var token = tokenHandler.CreateToken(tokenDescriptor);
-        return tokenHandler.WriteToken(token);
-    }
-
 }
