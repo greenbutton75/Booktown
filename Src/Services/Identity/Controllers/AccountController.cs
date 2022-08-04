@@ -55,15 +55,20 @@ namespace Identity.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<AuthenticateResponse>> Login(LoginRequest model)
         {
-            var AuthenticateResponse = await _userService.LogIn(model);
+            var userModel = await _userService.LogIn(model);
 
-            if (AuthenticateResponse == null)
+            if (userModel == null)
             {
                 _logger.LogError("Login failed: {Email}", model.Email);
                 throw new AppException("Login failed");
             }
 
-            return Ok(AuthenticateResponse);
+            var tokenModel = await _tokenService.GenerateJwtTokens(userModel);
+            return Ok(new AuthenticateResponse(userModel,
+                tokenModel.Token!,
+                tokenModel.RefreshToken!
+                ));
+
         }
         [HttpPost("RevokeRefreshTokens")]
         public async Task<ActionResult> RevokeRefreshTokens(string token)
@@ -83,15 +88,20 @@ namespace Identity.Controllers
         [HttpPost("LogInWithFacebook")]
         public async Task<ActionResult<AuthenticateResponse>> LogInWithFacebook(string token)
         {
-            var AuthenticateResponse = await _userService.LogInWithFacebook(token);
+            var userModel = await _userService.LogInWithFacebook(token);
 
-            if (AuthenticateResponse == null)
+            if (userModel == null)
             {
                 _logger.LogError("Login Facebook failed");
                 throw new AppException("Login failed");
             }
 
-            return Ok(AuthenticateResponse);
+            var tokenModel = await _tokenService.GenerateJwtTokens(userModel);
+            return Ok(new AuthenticateResponse(userModel,
+                tokenModel.Token!,
+                tokenModel.RefreshToken!
+                ));
+
         }
 
         [HttpGet]

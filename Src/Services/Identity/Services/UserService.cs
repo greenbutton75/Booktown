@@ -22,10 +22,9 @@ public class UserService : IUserService
     private readonly AppSettings _appSettings;
     private readonly ILogger<UserService> _logger;
     private readonly IFacebookAuthService _facebookAuthService;
-    private readonly ITokenService _tokenService;
 
     public UserService(SignInManager<CognitoUser> signInManager, UserManager<CognitoUser> userManager,
-        CognitoUserPool pool, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<UserService> logger, IFacebookAuthService facebookAuthService, ITokenService tokenService)
+        CognitoUserPool pool, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<UserService> logger, IFacebookAuthService facebookAuthService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
@@ -33,7 +32,6 @@ public class UserService : IUserService
         _mapper = mapper;
         _appSettings = appSettings.Value;
         _facebookAuthService = facebookAuthService;
-        _tokenService = tokenService;
         _logger = logger;
     }
 
@@ -65,7 +63,7 @@ public class UserService : IUserService
         return null;
     }
 
-    public async Task<AuthenticateResponse?> LogIn(LoginRequest model)
+    public async Task<UserModel?> LogIn(LoginRequest model)
     {
         var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
@@ -83,13 +81,10 @@ public class UserService : IUserService
             Email = model.Email
         };
 
-        // authentication successful so generate jwt token
-        var tokenModel = await _tokenService.GenerateJwtTokens(user);
-
-        return new AuthenticateResponse(user, tokenModel.Token!, tokenModel.RefreshToken!);
+        return user;
     }
 
-    public async Task<AuthenticateResponse?> LogInWithFacebook(string fbtoken)
+    public async Task<UserModel?> LogInWithFacebook(string fbtoken)
     {
         var validationResult = await _facebookAuthService.ValidateAccessTokenAsync(fbtoken);
         if (validationResult is null || !validationResult.Data.IsValid) throw new AppException("token is invalid");
@@ -119,9 +114,6 @@ public class UserService : IUserService
             Email = userInfo.Email
         };
 
-        // authentication successful so generate jwt token
-        var tokenModel = await _tokenService.GenerateJwtTokens(user);
-
-        return new AuthenticateResponse(user, tokenModel.Token!, tokenModel.RefreshToken!);
+        return user;
     }
 }

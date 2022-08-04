@@ -23,10 +23,8 @@ public class TokenService : ITokenService
         _logger = logger;
     }
 
-
     public async Task<TokenModel> GenerateJwtTokens(UserModel user)
     {
-        // generate token that is valid for 7 days
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
         var tokenDescriptor = new SecurityTokenDescriptor
@@ -45,38 +43,33 @@ public class TokenService : ITokenService
         // Current token can be expired
         JwtSecurityToken jwtToken = CheckToken(tokenModel.Token, false);
 
-        var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;
-        var userName = jwtToken.Claims.First(x => x.Type == "name").Value;
+        var userModel = ExtractUserFromToken(jwtToken);
 
         // Check refreshToken 
-        var checkResult = CheckRefreshToken(userEmail, tokenModel.RefreshToken);
+        var checkResult = CheckRefreshToken(userModel.Email, tokenModel.RefreshToken);
 
         if (checkResult == CheckRefreshTokenResult.Ok)
         {
             refreshTokens[tokenModel.RefreshToken].IsUsed = true;
 
-            return await GenerateJwtTokens(new UserModel
-            {
-                Username = userName,
-                Email = userEmail
-            });
+            return await GenerateJwtTokens(userModel);
         }
 
         // If refreshToken is already used - InvalidateUserRefreshTokens
         if (checkResult == CheckRefreshTokenResult.IsUsed)
-            InvalidateUserRefreshTokens(userEmail);
+            InvalidateUserRefreshTokens(userModel.Email);
 
 
-        throw new AppException($"Refresh Token is invalid {checkResult.ToString ()}");
+        throw new AppException($"Refresh Token is invalid {checkResult}");
 
     }
 
     public Task RevokeRefreshTokens(string token)
     {
         JwtSecurityToken jwtToken = CheckToken(token, true);
-        var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;
+        var userModel = ExtractUserFromToken(jwtToken);
 
-        InvalidateUserRefreshTokens(userEmail);
+        InvalidateUserRefreshTokens(userModel.Email);
 
         return Task.CompletedTask;
     }
@@ -86,14 +79,7 @@ public class TokenService : ITokenService
     {
         JwtSecurityToken jwtToken = CheckToken(token, true);
 
-        var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;
-        var userName = jwtToken.Claims.First(x => x.Type == "name").Value;
-
-        return new UserModel
-        {
-            Username = userName,
-            Email = userEmail
-        };
+        return ExtractUserFromToken(jwtToken);
     }
     private void InvalidateUserRefreshTokens(string userEmail)
     {
@@ -128,6 +114,18 @@ public class TokenService : ITokenService
             throw new AppException ($"Token is invalid {ex.Message}");
         }
 
+    }
+
+    private UserModel ExtractUserFromToken(JwtSecurityToken jwtToken)
+    {
+        var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;
+        var userName = jwtToken.Claims.First(x => x.Type == "name").Value;
+
+        return new UserModel
+        {
+            Username = userName,
+            Email = userEmail
+        };
     }
 
     private CheckRefreshTokenResult CheckRefreshToken(string userEmail, string refreshToken)
