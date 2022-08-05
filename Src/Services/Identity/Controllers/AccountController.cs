@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.IdentityModel.Tokens.Jwt;
 using System.Threading.Tasks;
 using Identity.Helpers;
 using Identity.Models;
@@ -53,7 +54,7 @@ namespace Identity.Controllers
             ));
         }
         [HttpPost("Login")]
-        public async Task<ActionResult<AuthenticateResponse>> Login(LoginRequest model)
+        public async Task<ActionResult<AuthenticateResponse>> Login(LoginRequest model, [FromHeader(Name = "X-Forwarded-For")] string clientIP)
         {
             var userModel = await _userService.LogIn(model);
 
@@ -103,6 +104,23 @@ namespace Identity.Controllers
                 ));
 
         }
+        [HttpPost("LogInWithGoogle")]
+        public async Task<ActionResult> LogInWithGoogle(string token)
+        {
+            var userModel = await _userService.LogInWithGoogle(token);
+
+            if (userModel == null)
+            {
+                _logger.LogError("Login Google failed");
+                throw new AppException("Login failed");
+            }
+
+            var tokenModel = await _tokenService.GenerateJwtTokens(userModel);
+            return Ok(new AuthenticateResponse(userModel,
+                tokenModel.Token!,
+                tokenModel.RefreshToken!
+                ));
+        }
 
         [HttpGet]
         [Authorize]
@@ -111,5 +129,14 @@ namespace Identity.Controllers
         {
             return new JsonResult(new { name = "1", val = "3", t = DateTime.Now.ToString() });
         }
+
+        [HttpGet("InnerAuthorized")]
+        [CustomAuthorization]
+        public IActionResult Get([FromHeader(Name = "CustomerName")] string customerName, [FromHeader(Name = "CustomerEmail")] string customerEmail)
+        {
+            return new JsonResult(new { name = customerName, email = customerEmail, t = DateTime.Now.ToString() });
+        }
+
+
     }
 }

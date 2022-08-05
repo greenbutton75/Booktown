@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "mkGRVemmuKIPulYeulpH0GO/s8ihpazB5cLMWdc1APpxqmwOG5V3lpBVoPtu1cSSuV6AYJdSLgGIJ4g+3YW+dQ==",
+  "dgSpecHash": "cgel+HwTa/ZlbQh0putxDgtElov7ODsR7Y20Q9ZV05XEVZI8FmieaXF06t/T8DmDgUgPAUzvvXhWfUUOtFfpxw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Valentin Kolesov\\source\\repos\\Booktown\\APIGateway\\APIGateway.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\fluentvalidation\\10.3.6\\fluentvalidation.10.3.6.nupkg.sha512",
+    "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\6.0.7\\microsoft.aspnetcore.authentication.jwtbearer.6.0.7.nupkg.sha512",
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.aspnetcore.jsonpatch\\6.0.1\\microsoft.aspnetcore.jsonpatch.6.0.1.nupkg.sha512",
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.aspnetcore.middlewareanalysis\\6.0.1\\microsoft.aspnetcore.middlewareanalysis.6.0.1.nupkg.sha512",
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.aspnetcore.mvc.newtonsoftjson\\6.0.1\\microsoft.aspnetcore.mvc.newtonsoftjson.6.0.1.nupkg.sha512",
@@ -12,6 +13,11 @@
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.extensions.diagnosticadapter\\3.1.22\\microsoft.extensions.diagnosticadapter.3.1.22.nupkg.sha512",
+    "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\6.10.0\\microsoft.identitymodel.jsonwebtokens.6.10.0.nupkg.sha512",
+    "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.identitymodel.logging\\6.10.0\\microsoft.identitymodel.logging.6.10.0.nupkg.sha512",
+    "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.identitymodel.protocols\\6.10.0\\microsoft.identitymodel.protocols.6.10.0.nupkg.sha512",
+    "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.identitymodel.protocols.openidconnect\\6.10.0\\microsoft.identitymodel.protocols.openidconnect.6.10.0.nupkg.sha512",
+    "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.identitymodel.tokens\\6.10.0\\microsoft.identitymodel.tokens.6.10.0.nupkg.sha512",
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.14.0\\microsoft.visualstudio.azure.containers.tools.targets.1.14.0.nupkg.sha512",
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
@@ -21,7 +27,9 @@
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.2.3\\swashbuckle.aspnetcore.swagger.6.2.3.nupkg.sha512",
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.2.3\\swashbuckle.aspnetcore.swaggergen.6.2.3.nupkg.sha512",
     "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.2.3\\swashbuckle.aspnetcore.swaggerui.6.2.3.nupkg.sha512",
-    "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512"
+    "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.7.1\\system.diagnostics.diagnosticsource.4.7.1.nupkg.sha512",
+    "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\system.identitymodel.tokens.jwt\\6.10.0\\system.identitymodel.tokens.jwt.6.10.0.nupkg.sha512",
+    "C:\\Users\\Valentin Kolesov\\.nuget\\packages\\system.security.cryptography.cng\\4.5.0\\system.security.cryptography.cng.4.5.0.nupkg.sha512"
   ],
   "logs": []
 }

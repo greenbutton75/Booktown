@@ -34,3 +34,11 @@ C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\obj\Debug\net6.0\refi
 C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\obj\Debug\net6.0\APIGateway.pdb
 C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\obj\Debug\net6.0\APIGateway.genruntimeconfig.cache
 C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\obj\Debug\net6.0\ref\APIGateway.dll
+C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\bin\Debug\net6.0\Ocelot.Development.json
+C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\bin\Debug\net6.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\bin\Debug\net6.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\bin\Debug\net6.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\bin\Debug\net6.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\bin\Debug\net6.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Valentin Kolesov\source\repos\Booktown\APIGateway\bin\Debug\net6.0\System.IdentityModel.Tokens.Jwt.dll

@@ -22,9 +22,10 @@ public class UserService : IUserService
     private readonly AppSettings _appSettings;
     private readonly ILogger<UserService> _logger;
     private readonly IFacebookAuthService _facebookAuthService;
+    private readonly IGoogleAuthService _googleAuthService;
 
     public UserService(SignInManager<CognitoUser> signInManager, UserManager<CognitoUser> userManager,
-        CognitoUserPool pool, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<UserService> logger, IFacebookAuthService facebookAuthService)
+        CognitoUserPool pool, IMapper mapper, IOptions<AppSettings> appSettings, ILogger<UserService> logger, IFacebookAuthService facebookAuthService, IGoogleAuthService googleAuthService)
     {
         _signInManager = signInManager;
         _userManager = userManager;
@@ -32,6 +33,7 @@ public class UserService : IUserService
         _mapper = mapper;
         _appSettings = appSettings.Value;
         _facebookAuthService = facebookAuthService;
+        _googleAuthService = googleAuthService;
         _logger = logger;
     }
 
@@ -111,6 +113,35 @@ public class UserService : IUserService
         var user = new UserModel
         {
             Username = userName,
+            Email = userInfo.Email
+        };
+
+        return user;
+    }
+
+    public async Task<UserModel?> LogInWithGoogle(string googletoken)
+    {
+
+        var userInfo = await _googleAuthService.GetUserInfoAsync(googletoken);
+
+        var cognitoUser = await ((CognitoUserManager<CognitoUser>)_userManager).FindByEmailAsync(userInfo.Email);
+
+        // Create new one
+        if (cognitoUser is null)
+        {
+            var newUser = _pool.GetUser(userInfo.Email);
+
+            newUser.Attributes.Add(CognitoAttribute.Email.AttributeName, userInfo.Email);
+            newUser.Attributes.Add(CognitoAttribute.Name.AttributeName, userInfo.Name);
+            var createdUser = await _userManager.CreateAsync(newUser);
+
+            if (!createdUser.Succeeded)
+                if (createdUser.Errors.Any()) throw new AppException(createdUser.Errors.FirstOrDefault().Description);
+        }
+
+        var user = new UserModel
+        {
+            Username = userInfo.Name,
             Email = userInfo.Email
         };
 

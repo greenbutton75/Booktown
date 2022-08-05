@@ -9,6 +9,7 @@ public interface IUserService
     public Task<UserModel?> LogIn(LoginRequest model);
 
     public Task<UserModel?> LogInWithFacebook(string token);
+    public Task<UserModel?> LogInWithGoogle(string token);
 
 }
 

@@ -1,11 +1,22 @@
-<html>
+<html itemscope itemtype="http://schema.org/Article">
 <head>
 <meta charset="utf-8">
 <title>Shop</title>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
 
-
+  <script>
+    function start() {
+      gapi.load('auth2', function() {
+        auth2 = gapi.auth2.init({
+          client_id: '984362347605-fdm3vta8cck094rmd13d61m1h09rf0e6.apps.googleusercontent.com',
+          // Scopes to request in addition to 'profile' and 'email'
+          //scope: 'additional_scope'
+        });
+      });
+    }
+  </script>
 <script>
   window.fbAsyncInit = function() {
     FB.init({
@@ -28,6 +39,12 @@
    }(document, 'script', 'facebook-jssdk'));
 
 
+function signInCallback(authResult)
+{
+alert('2');
+	    $("#authstatus").html("<code>"+ JSON.stringify(authResult, null, 2)+"</code>")
+
+}
 function checkLoginState()
 {
 	FB.getLoginStatus(function(response) {
@@ -57,6 +74,18 @@ Pwd <input type="text" id="pwd" name="pwd" required minlength="4" maxlength="18"
 </fb:login-button>
 <br>
 
+<!-- Add where you want your sign-in button to render -->
+<!-- Use an image that follows the branding guidelines in a real app -->
+<button id="signinButton">Sign in with Google</button>
+<script>
+  $('#signinButton').click(function() {
+    // signInCallback defined in step 6.
+alert('1');
+    auth2.grantOfflineAccess().then(signInCallback);
+  });
+</script>
+
+<!--  <div class="fb-login-button" data-width="" data-size="small" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false"></div> -->
 <div id="authstatus"></div>
 
 </body>

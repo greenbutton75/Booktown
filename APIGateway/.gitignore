@@ -365,3 +365,4 @@ FodyWeavers.xsd
 
 /secrets.txt
 /appsettings.json
+/appsettings.Development.json

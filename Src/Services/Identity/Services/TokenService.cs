@@ -29,7 +29,10 @@ public class TokenService : ITokenService
         var key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Subject = new ClaimsIdentity(new[] { new Claim("name", user.Username.ToString()), new Claim("email", user.Email.ToString()) }),
+            Subject = new ClaimsIdentity(new[] { 
+                new Claim("Booktown_name", user.Username.ToString()),
+                new Claim("Booktown_email", user.Email.ToString())
+            }),
             Expires = DateTime.UtcNow.AddMinutes(_appSettings.TokenValidityInMinutes),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
@@ -56,6 +59,7 @@ public class TokenService : ITokenService
         }
 
         // If refreshToken is already used - InvalidateUserRefreshTokens
+        // https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/
         if (checkResult == CheckRefreshTokenResult.IsUsed)
             InvalidateUserRefreshTokens(userModel.Email);
 
@@ -118,8 +122,8 @@ public class TokenService : ITokenService
 
     private UserModel ExtractUserFromToken(JwtSecurityToken jwtToken)
     {
-        var userEmail = jwtToken.Claims.First(x => x.Type == "email").Value;
-        var userName = jwtToken.Claims.First(x => x.Type == "name").Value;
+        var userEmail = jwtToken.Claims.First(x => x.Type == "Booktown_email").Value;
+        var userName = jwtToken.Claims.First(x => x.Type == "Booktown_name").Value;
 
         return new UserModel
         {
