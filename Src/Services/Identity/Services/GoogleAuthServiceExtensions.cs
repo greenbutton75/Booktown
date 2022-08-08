@@ -10,7 +10,6 @@ public static class GoogleAuthServiceExtensions
     {
         var options = new GoogleAuthSettings();
         Configuration.GetSection(nameof(GoogleAuthSettings)).Bind(options);
-        //services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
         services.AddHttpClient(nameof(GoogleAuthSettings));
 

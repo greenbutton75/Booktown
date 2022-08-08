@@ -1,0 +1,59 @@
+<html itemscope itemtype="http://schema.org/Article">
+<head>
+<meta charset="utf-8">
+<title>Booktown</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '599873484845716',
+      cookie     : true,
+      xfbml      : true,
+      version    : 'v14.0'
+    });
+      
+    FB.AppEvents.logPageView();   
+      
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+
+function checkLoginState()
+{
+	FB.getLoginStatus(function(response) {
+	    $("#authstatus").html("<code>"+ JSON.stringify(response, null, 2)+"</code>")
+	});
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_EN/sdk.js#xfbml=1&version=v14.0&appId=599873484845716&autoLogAppEvents=1" nonce="yVJs7N9P"></script>
+
+
+<fb:login-button 
+  scope="public_profile,email"
+  onlogin="checkLoginState();">
+</fb:login-button>
+<br>
+
+<br>
+<div id="authstatus"></div>
+
+</body>
+
+</html>

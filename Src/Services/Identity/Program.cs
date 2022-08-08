@@ -1,4 +1,5 @@
-﻿using Identity.HealthChecks;
+﻿using HealthChecks.UI.Client;
+using Identity.HealthChecks;
 using Identity.Helpers;
 using Identity.Services;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +9,8 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using Microsoft.AspNetCore.Builder;
 using Serilog;
-
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
 string AppName = "Identity";
 
@@ -79,7 +81,10 @@ builder.Services.AddSwaggerGen(c => {
                 });
 });
 
-builder.Services.AddHealthChecks().AddCheck<IdentityHealthCheck>(AppName);
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy())
+    .AddCheck<IdentityHealthCheck>(AppName);
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllOrigin", policy => policy.WithOrigins("*").AllowAnyHeader());
@@ -100,6 +105,16 @@ app.UseCors();
 app.UseResponseCaching();
 
 app.UseHealthChecks("/health");
+app.MapHealthChecks("/hc", new HealthCheckOptions
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.MapHealthChecks("/liveness", new HealthCheckOptions
+{
+    Predicate = r => r.Name.Contains("self")
+});
 
 app.UseAuthentication();
 //app.UseAuthorization();

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Booktown</title>
+</head>
+
+<body>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <script src="https://apis.google.com/js/client.js?onload=init"></script>
+  <script>
+    var auth2;
+
+    function init() {
+      gapi.load('auth2', function () {
+        auth2 = gapi.auth2.init({
+          client_id: '984362347605-fdm3vta8cck094rmd13d61m1h09rf0e6.apps.googleusercontent.com',
+          scope: 'profile email',
+          plugin_name : 'webclient'
+        });
+      })
+    }
+
+    function login() {
+      auth2.grantOfflineAccess({ 'redirect_uri': 'postmessage', 'approval_prompt': 'force' }).then(onSignIn);
+    }
+
+    function onSignIn(auth) {
+      const code = auth.code
+      console.log("Code from google is: ", code)
+      $("#authstatus").html("<code>"+ JSON.stringify(code, null, 2)+"</code>")
+
+    }
+
+    function logout() {
+      auth2.signOut().then(function () {
+        console.log('User signed out.');
+      });
+    }
+
+    init();
+  </script>
+
+  <button onclick="login()">Login with Google</button>
+	<br>
+	<div id="authstatus"></div>
+
+</body>
+
+</html>

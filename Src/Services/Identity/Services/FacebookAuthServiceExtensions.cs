@@ -10,7 +10,6 @@ public static class FacebookAuthServiceExtensions
     {
         var options = new FacebookAuthSettings();
         Configuration.GetSection(nameof(FacebookAuthSettings)).Bind(options);
-        //services.Configure<FacebookAuthSettings>(Configuration.GetSection(nameof(FacebookAuthSettings)));
 
         services.AddHttpClient(nameof(FacebookAuthService));
 
