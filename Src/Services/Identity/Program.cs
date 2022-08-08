@@ -104,7 +104,6 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 app.UseResponseCaching();
 
-app.UseHealthChecks("/health");
 app.MapHealthChecks("/hc", new HealthCheckOptions
 {
     Predicate = _ => true,
