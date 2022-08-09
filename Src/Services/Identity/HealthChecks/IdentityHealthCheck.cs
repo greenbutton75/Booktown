@@ -23,7 +23,7 @@ namespace Identity.HealthChecks
             try
             {
                 var user = _pool.GetUser("fakeuser");
-                var cognitoUser = await _userManager.SetPhoneNumberAsync (user, "+12125199999"); // Id Cognito works it will return error in cognitoUser object
+                var cognitoUser = await _userManager.SetPhoneNumberAsync (user, "+12125199999"); // If Cognito works it will return error in cognitoUser object
             }
             catch (Exception)
             {

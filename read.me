@@ -4,17 +4,17 @@ Services
 
 Gateway
 	[Authorize] Create/check token
-	Retrieve UserDevices IDs for Notifications
 	Retrieve User IP to get GeoLocation (map in Kibana)
 	BFF aggregators (with gRPC)
 	Cash requests (InMemory)
-	Request limiting (Polly)
+	Request limiting
 	     
 Auth
 	AWS Cognito
 	JWT/Refresh token
 	Google/FB authentication
 	Save User IP with GeoLocation (map in Kibana)
+	User Logins/SignUps metrics to Prometheus/Grafana
 
 Orders
 	Saga coordinator
@@ -38,6 +38,9 @@ Inventory
 
 Shipment
 	Mongo as DB
+
+Payment
+	Stripe sandbox
 
 PriceCalculator
 	Saves special offers
@@ -79,6 +82,5 @@ Good to have
 	CI/CD
 	K8s 
 	Terraform
-	Consul ?
 	LB ?
 	Python scraping book store for realistic data
