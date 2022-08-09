@@ -29,7 +29,7 @@ We can play with
 
 and everything you can think of!
 
-Also we can use the most suitable persistent storages for each service.
+Also we can use the most suitable persistent storages for each service **Relational databases** and **NoSQL**.
 
 - `Postgres`
 - `Redis`
@@ -39,9 +39,9 @@ Also we can use the most suitable persistent storages for each service.
 
 you name it!
 
-For asynchronous communications with Service bus we'll leverage `CQRS` pattern and choose `Masstransit` with `RabbitMQ` as one of the most popular open source message brokers.
+For asynchronous communications with Service bus we'll leverage `CQRS` pattern with using `MediatR`, `FluentValidation` and `AutoMapper` packages and choose `Masstransit` with `RabbitMQ` as one of the most popular open source message brokers.
 
-We'll put an [API Gateway](APIGateway/README.md) in front of our app, to protect inner network.
+We'll put an [API Gateway](APIGateway/README.md) based on `Ocelot API Gateway` in front of our app, to protect inner network.
 Though it is not absolutely necessary we will create `BFF` aggregator with sync service communication with the purpose - get our hands dirty on `gRPC` :)
 
 Also we need to add some monitoring and observability to our system - `Logging`, `Metrics`, `Traces`, `Healthchecks`.
@@ -70,6 +70,8 @@ The architecture proposes a microservice oriented architecture implementation wi
 microservice (simple CRUD vs. DDD/CQRS patterns) using HTTP as the communication protocol between the client apps and the microservices and supports asynchronous communication for data
 updates propagation across multiple services based on Integration Events and a Masstransit Event Bus (a light message broker, to choose between RabbitMQ or Kafka, underneath) plus other
 features defined at the roadmap.
+
+![](img/Booktown-architecture.png)
 
 It is not a production-ready project but rather showcase of architectural patterns and technologies.
 But I think it might be helpful for education purposes.
