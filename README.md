@@ -71,7 +71,7 @@ microservice (simple CRUD vs. DDD/CQRS patterns) using HTTP as the communication
 updates propagation across multiple services based on Integration Events and a Masstransit Event Bus (a light message broker, to choose between RabbitMQ or Kafka, underneath) plus other
 features defined at the roadmap.
 
-![](img/Booktown-architecture.png)
+![Architecture](img/Booktown-architecture.png)
 
 It is not a production-ready project but rather showcase of architectural patterns and technologies.
 But I think it might be helpful for education purposes.
