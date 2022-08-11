@@ -33,18 +33,6 @@ namespace Infrastructure.Core.Events
             }
         }
 
-        public virtual async Task Commit(StreamState stream)
-        {
-            if (_eventListener != null)
-            {
-                await _eventListener.Publish(stream.Data, stream.Type);
-            }
-            else
-            {
-                throw new ArgumentNullException("No event listener found");
-            }
-        }
-
         private async Task SendToMessageBroker(IEvent @event)
         {
             if (_eventListener != null)

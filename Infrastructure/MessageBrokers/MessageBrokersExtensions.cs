@@ -1,9 +1,11 @@
 ﻿using Infrastructure.Core.Events;
-using Infrastructure.MessageBrokers.Kafka;
+using MassTransit;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace Infrastructure.MessageBrokers
 {
@@ -11,35 +13,50 @@ namespace Infrastructure.MessageBrokers
     {
         public static IServiceCollection AddMessageBroker(this IServiceCollection services, IConfiguration Configuration)
         {
+            /*
             var options = new MessageBrokersOptions();
             Configuration.GetSection(nameof(MessageBrokersOptions)).Bind(options);
             services.Configure<MessageBrokersOptions>(Configuration.GetSection(nameof(MessageBrokersOptions)));
-
-            switch (options.MessageBrokerType.ToLowerInvariant())
+            */
+            return services.AddMassTransit(x =>
             {
-                //case "rabbitmq":
-                //    return services.AddRabbitMQ(Configuration);
-                case "kafka":
-                    return services.AddKafka(Configuration);
-                default:
-                    throw new Exception($"Message broker type '{options.MessageBrokerType}' is not supported");
-            }
+                x.SetKebabCaseEndpointNameFormatter();
 
-//            return services.AddKafka(Configuration);
-        }
+                foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    var types = a.GetTypes()
+                    .Where(mytype => mytype.GetInterfaces().Contains(typeof(IConsumer)));
 
-        public static IApplicationBuilder UseSubscribeEvent<T>(this IApplicationBuilder app) where T : IEvent
-        {
-            app.ApplicationServices.GetRequiredService<IEventListener>().Subscribe<T>();
+                    Debug.WriteLine("Adding Consumers");
+                    foreach (var type in types)
+                    {
+                     if (type.Name.Contains ("InventoryLoadConsumer"))   x.AddConsumer(type);
+                        if (type.Name.Contains("InventoryLoadConsumer")) Debug.WriteLine("AddConsumer - " + type.Name);
+                    }
+                }
+                //    x.AddConsumer<InventoryLoadConsumer>();
 
-            return app;
-        }
 
-        public static IApplicationBuilder UseSubscribeEvent(this IApplicationBuilder app, Type type)
-        {
-            app.ApplicationServices.GetRequiredService<IEventListener>().Subscribe(type);
+                //x.UsingRabbitMq();
+                x.UsingRabbitMq((brc, rbfc) =>
+                {
+                    rbfc.UseInMemoryOutbox();
+                    rbfc.UseMessageRetry(r =>
+                    {
+                        r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+                    });
+                    //rbfc.UseDelayedMessageScheduler();
+                    rbfc.Host("localhost", h =>
+                    {
+                        h.Username("guest");
+                        h.Password("guest");
+                    });
+                    rbfc.ConfigureEndpoints(brc);
+                });
 
-            return app;
+
+            }).AddScoped<IEventListener, EventListener>();
+
         }
     }
 }

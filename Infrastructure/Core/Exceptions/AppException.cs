@@ -1,4 +1,4 @@
-namespace Infrastructure.Core;
+namespace Infrastructure.Core.Exceptions;
 
 using System.Globalization;
 

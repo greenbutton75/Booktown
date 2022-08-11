@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Infrastructure.Core.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -20,6 +21,14 @@ namespace Infrastructure.Core
             if (ex is AppException)
             {
                 return HttpStatusCode.BadRequest;
+            }
+            if (ex is BadRequestException)
+            {
+                return HttpStatusCode.BadRequest;
+            }
+            if (ex is NotFoundException)
+            {
+                return HttpStatusCode.NotFound;
             }
             if (ex is ArgumentNullException)
             {

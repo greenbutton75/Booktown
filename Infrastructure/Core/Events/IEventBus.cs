@@ -7,6 +7,5 @@ namespace Infrastructure.Core.Events
     {
         Task PublishLocal(params IEvent[] events);
         Task Commit(params IEvent[] events);
-        Task Commit(StreamState stream);
     }
 }
