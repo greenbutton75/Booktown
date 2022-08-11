@@ -22,16 +22,18 @@ namespace Infrastructure.MessageBrokers
             {
                 x.SetKebabCaseEndpointNameFormatter();
 
+                Debug.WriteLine("Adding Consumers");
                 foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
                 {
                     var types = a.GetTypes()
-                    .Where(mytype => mytype.GetInterfaces().Contains(typeof(IConsumer)));
+                    .Where(mytype => mytype.FindInterfaces((x, _) => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IMyConsumer<>), true).Any());
 
-                    Debug.WriteLine("Adding Consumers");
+                    //mytype.GetInterfaces().Contains(typeof(IMyConsumer))
+
                     foreach (var type in types)
                     {
-                     if (type.Name.Contains ("InventoryLoadConsumer"))   x.AddConsumer(type);
-                        if (type.Name.Contains("InventoryLoadConsumer")) Debug.WriteLine("AddConsumer - " + type.Name);
+                       x.AddConsumer(type);
+                       Debug.WriteLine("AddConsumer - " + type.Name);
                     }
                 }
                 //    x.AddConsumer<InventoryLoadConsumer>();

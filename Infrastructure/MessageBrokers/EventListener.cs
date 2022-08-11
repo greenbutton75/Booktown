@@ -18,36 +18,10 @@ namespace Infrastructure.MessageBrokers
             _publishEndpoint=publishEndpoint;
         }
 
-        public virtual void Subscribe<T>() where T : IEvent
-        {
-            Subscribe(typeof(T));
-        }
-
-        public virtual void Subscribe(Type type)
-        {
-/*
-            using (var consumer = new ConsumerBuilder<string, string>(_kafkaOptions.Consumer).Build())
-            {
-                consumer.Subscribe(_topics);
-                while (true)
-                {
-                    var message = consumer.Consume();
-
-                    var @event = JsonConvert.DeserializeObject(message.Message.Value, type) as IEvent;
-
-                    using (var scope = _serviceFactory.CreateScope())
-                    {
-                        var eventBus = scope.ServiceProvider.GetService<IEventBus>();
-                        eventBus.PublishLocal(@event);
-                    }
-                }
-            }
-*/
-        }
 
         public virtual async Task Publish<T>(T @event) where T : IEvent
         {
-            await _publishEndpoint.Publish(@event, typeof(T));
+            await _publishEndpoint.Publish(@event, @event.GetType());
         }
     }
 }

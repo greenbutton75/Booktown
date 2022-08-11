@@ -4,7 +4,7 @@ using MassTransit;
 
 namespace Inventory.Consumers
 {
-    public class InventoryLoadConsumer : IConsumer<InventoryLoadEvent>
+    public class InventoryLoadConsumer : IMyConsumer<InventoryLoadEvent>
     {
         public InventoryLoadConsumer()
         {

@@ -1,11 +1,11 @@
 ﻿using Infrastructure.Core.Events;
+using MassTransit;
 using System;
 using System.Threading.Tasks;
 
 namespace Infrastructure.MessageBrokers
 {
-    public interface IEventListener
+    public interface IMyConsumer<in TMessage> : IConsumer where TMessage : class
     {
-        Task Publish<TEvent>(TEvent @event) where TEvent : IEvent;
     }
 }
