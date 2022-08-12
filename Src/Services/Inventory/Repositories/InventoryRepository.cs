@@ -6,14 +6,14 @@ namespace Inventory.Repositories;
 public class InventoryRepository : IInventoryRepository
 {
     private readonly ILogger<InventoryRepository> _logger;
-    private readonly ConnectionMultiplexer _redis;
+    //private readonly ConnectionMultiplexer _redis;
     private readonly IDatabase _database;
 
-    public InventoryRepository(ILoggerFactory loggerFactory, ConnectionMultiplexer redis)
+    public InventoryRepository(ILoggerFactory loggerFactory) //, ConnectionMultiplexer redis
     {
         _logger = loggerFactory.CreateLogger<InventoryRepository>();
-        _redis = redis;
-        _database = redis.GetDatabase();
+        //_redis = redis;
+        //_database = redis.GetDatabase();
     }
 /*
     public async Task<bool> DeleteBasketAsync(string id)
@@ -49,7 +49,8 @@ public class InventoryRepository : IInventoryRepository
 
     private IServer GetServer()
     {
-        var endpoint = _redis.GetEndPoints();
-        return _redis.GetServer(endpoint.First());
+        throw new NotImplementedException();
+        // var endpoint = _redis.GetEndPoints();
+        // return _redis.GetServer(endpoint.First());
     }
 }

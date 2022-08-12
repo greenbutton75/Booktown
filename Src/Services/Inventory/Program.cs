@@ -1,6 +1,7 @@
 using Events;
 using Infrastructure.Core;
 using Infrastructure.MessageBrokers;
+using Inventory.Consumers;
 using Inventory.Repositories;
 using StackExchange.Redis;
 
@@ -24,10 +25,10 @@ builder.Services.AddTransient<IInventoryRepository, InventoryRepository>();
 //and then creating the connection it seems reasonable to move
 //that cost to startup instead of having the first request pay the
 //penalty.
-builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>
-{
-    return ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection"));
-});
+// builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>
+// {
+//     return ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection"));
+// });
 
 
 var app = builder.Build();
