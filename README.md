@@ -41,7 +41,7 @@ you name it!
 
 For asynchronous communications with Service bus we'll leverage `CQRS` pattern with using `MediatR`, `FluentValidation` and `AutoMapper` packages and choose `Masstransit` with `RabbitMQ` as one of the most popular open source message brokers.
 
-We'll put an [API Gateway](APIGateway/README.md) based on `Ocelot API Gateway` in front of our app, to protect inner network.
+We'll put an [API Gateway](Src/APIGateway/README.md) based on `Ocelot API Gateway` in front of our app, to protect inner network.
 Though it is not absolutely necessary we will create `BFF` aggregator with sync service communication with the purpose - get our hands dirty on `gRPC` :)
 
 Also we need to add some monitoring and observability to our system - `Logging`, `Metrics`, `Traces`, `Healthchecks`.
