@@ -32,8 +32,8 @@ namespace Infrastructure.MessageBrokers
 
                     foreach (var type in types)
                     {
-                       x.AddConsumer(type);
-                       Debug.WriteLine("AddConsumer - " + type.Name);
+                        x.AddConsumer(type); //.Endpoint( e => e.Name = "Events.Inventory:InventoryLoadEvent" /*type.GetInterfaces()[0].GetGenericArguments()[0].FullName*/);
+                       Debug.WriteLine("AddConsumer - " + type.Name +" - "+ type.AssemblyQualifiedName +" ---> "+ type.GetInterfaces()[0].GetGenericArguments()[0].FullName);
                     }
                 }
                 //    x.AddConsumer<InventoryLoadConsumer>();
