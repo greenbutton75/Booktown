@@ -25,22 +25,15 @@ namespace Infrastructure.MessageBrokers
                 Debug.WriteLine("Adding Consumers");
                 foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    //x.AddConsumers(typeof(SubmitOrderConsumer).Assembly);
                     var types = a.GetTypes()
                         .Where(mytype =>
                             mytype.FindInterfaces(
                                 (t, _) => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IMyConsumer<>),
                                 true).Any());
                     
-                    //mytype.GetInterfaces().Contains(typeof(IMyConsumer))
-                    
                     foreach (var type in types)
                     {
-                        //.Endpoint( e => e.Name = "Events.Inventory:InventoryLoadEvent" /*type.GetInterfaces()[0].GetGenericArguments()[0].FullName*/);
                         x.AddConsumer(type); 
-                       
-                        Debug.WriteLine("AddConsumer - " + type.Name + " - " + type.AssemblyQualifiedName + " ---> " +
-                                        type.GetInterfaces()[0].GetGenericArguments()[0].FullName);
                     }
                 }
 
@@ -51,12 +44,12 @@ namespace Infrastructure.MessageBrokers
                         h.Username("guest");
                         h.Password("guest");
                     });
-                    
-                    // rbfc.UseInMemoryOutbox();
-                    // rbfc.UseMessageRetry(r =>
-                    // {
-                    //     r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
-                    // });
+
+                    rbfc.UseInMemoryOutbox();
+                    rbfc.UseMessageRetry(r =>
+                    {
+                        r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+                    });
                     //rbfc.UseDelayedMessageScheduler();
                     rbfc.ConfigureEndpoints(brc);
                 });

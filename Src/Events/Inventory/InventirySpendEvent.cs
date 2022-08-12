@@ -4,12 +4,12 @@ using System;
 
 namespace Events.Inventory
 {
-    public class InventoryLoadEvent : Event
+    public class InventorySpendEvent : Event
     {
         public string ProductId { get; set; }
         public int Quantity { get; set; }
 
-        public class Validator : AbstractValidator<InventoryLoadEvent>
+        public class Validator : AbstractValidator<InventorySpendEvent>
         {
             public Validator()
             {

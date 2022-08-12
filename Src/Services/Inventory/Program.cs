@@ -25,10 +25,10 @@ builder.Services.AddTransient<IInventoryRepository, InventoryRepository>();
 //and then creating the connection it seems reasonable to move
 //that cost to startup instead of having the first request pay the
 //penalty.
-// builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>
-// {
-//     return ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection"));
-// });
+builder.Services.AddSingleton<ConnectionMultiplexer>(sp =>
+{
+    return ConnectionMultiplexer.Connect(builder.Configuration.GetConnectionString("RedisConnection"));
+});
 
 
 var app = builder.Build();
@@ -41,7 +41,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCore();
-//app.UseSubscribeAllEvents();
 
 app.UseAuthorization();
 

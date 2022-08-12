@@ -22,7 +22,6 @@ namespace Infrastructure.MessageBrokers
         public virtual async Task Publish<T>(T @event) where T : IEvent
         {
             await _publishEndpoint.Publish(@event);
-            //await _publishEndpoint.Publish(@event, x => x.SetRoutingKey ("inventory-load"));
         }
     }
 }

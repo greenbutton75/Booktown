@@ -50,11 +50,36 @@ namespace Inventory.Commands
             }
             public async Task<Unit> Handle(Command command, CancellationToken cancellationToken)
             {
-                var @event = new InventoryLoadEvent { ProductId="1", Quantity=10};
-                await _eventBus.Commit(@event);
+                foreach (var item in command.items)
+                {
+                    var dbitem = await _repository.GetItem(item);
 
-                //command.items  TODO
-                await _repository.DoNothing();
+                    // If it is a new product or now we have it in stock - send event to Catalog
+                    if (dbitem == null || dbitem.Quantity == 0)
+                    {
+                        var @event = new InventoryInStockEvent
+                        {
+                            ProductId = item.ProductId
+                        };
+                        await _eventBus.Commit(@event);
+                    }
+
+                    if (dbitem != null)
+                    {
+                        dbitem.Quantity = dbitem.Quantity + item.Quantity;
+                    }
+                    else
+                    {
+                        dbitem = new InventoryItem { ProductId=item.ProductId, Quantity= item.Quantity };
+                    }
+
+                    await _repository.UpdateItem(dbitem);
+                }
+
+
+
+
+
 
 
                 return Unit.Value;

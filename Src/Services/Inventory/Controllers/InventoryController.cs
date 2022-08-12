@@ -43,7 +43,7 @@ namespace Inventory.Controllers
             return Ok();
         }
 
-        
+        /* This is bus event
         [HttpGet("Spend/{id}/{quantity}")]
         public async Task<IActionResult> Spend(string id, int quantity, CancellationToken cancellationToken)
         {
@@ -59,7 +59,7 @@ namespace Inventory.Controllers
 
             return Ok();
         }
-        
+        */
         /*
         [HttpGet("GetAll")]
         public async Task<ActionResult<GetAllQuery.Result>> Get(CancellationToken cancellationToken)
