@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.MessageBrokers
 {
-    public interface IMyConsumer<in TMessage> : IConsumer where TMessage : class
+    public interface IMyConsumer<in TMessage> : IConsumer<TMessage> where TMessage : class
     {
     }
 }

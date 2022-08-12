@@ -18,47 +18,53 @@ namespace Infrastructure.MessageBrokers
             Configuration.GetSection(nameof(MessageBrokersOptions)).Bind(options);
             services.Configure<MessageBrokersOptions>(Configuration.GetSection(nameof(MessageBrokersOptions)));
             */
-            return services.AddMassTransit(x =>
+            services.AddMassTransit(x =>
             {
                 x.SetKebabCaseEndpointNameFormatter();
 
                 Debug.WriteLine("Adding Consumers");
                 foreach (Assembly a in AppDomain.CurrentDomain.GetAssemblies())
                 {
+                    //x.AddConsumers(typeof(SubmitOrderConsumer).Assembly);
                     var types = a.GetTypes()
-                    .Where(mytype => mytype.FindInterfaces((x, _) => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IMyConsumer<>), true).Any());
-
+                        .Where(mytype =>
+                            mytype.FindInterfaces(
+                                (t, _) => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IMyConsumer<>),
+                                true).Any());
+                    
                     //mytype.GetInterfaces().Contains(typeof(IMyConsumer))
-
+                    
                     foreach (var type in types)
                     {
-                        x.AddConsumer(type); //.Endpoint( e => e.Name = "Events.Inventory:InventoryLoadEvent" /*type.GetInterfaces()[0].GetGenericArguments()[0].FullName*/);
-                       Debug.WriteLine("AddConsumer - " + type.Name +" - "+ type.AssemblyQualifiedName +" ---> "+ type.GetInterfaces()[0].GetGenericArguments()[0].FullName);
+                        //.Endpoint( e => e.Name = "Events.Inventory:InventoryLoadEvent" /*type.GetInterfaces()[0].GetGenericArguments()[0].FullName*/);
+                        x.AddConsumer(type); 
+                       
+                        Debug.WriteLine("AddConsumer - " + type.Name + " - " + type.AssemblyQualifiedName + " ---> " +
+                                        type.GetInterfaces()[0].GetGenericArguments()[0].FullName);
                     }
                 }
-                //    x.AddConsumer<InventoryLoadConsumer>();
 
-
-                //x.UsingRabbitMq();
                 x.UsingRabbitMq((brc, rbfc) =>
                 {
-                    rbfc.UseInMemoryOutbox();
-                    rbfc.UseMessageRetry(r =>
-                    {
-                        r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
-                    });
-                    //rbfc.UseDelayedMessageScheduler();
-                    rbfc.Host("localhost", h =>
+                    rbfc.Host("localhost", "/", h =>
                     {
                         h.Username("guest");
                         h.Password("guest");
                     });
+                    
+                    // rbfc.UseInMemoryOutbox();
+                    // rbfc.UseMessageRetry(r =>
+                    // {
+                    //     r.Incremental(3, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(1));
+                    // });
+                    //rbfc.UseDelayedMessageScheduler();
                     rbfc.ConfigureEndpoints(brc);
                 });
+            });
+            
+            services.AddScoped<IEventListener, EventListener>();
 
-
-            }).AddScoped<IEventListener, EventListener>();
-
+            return services;
         }
     }
 }
