@@ -14,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMessageBroker(builder.Configuration);
+builder.Services.AddMessageBroker(builder.Configuration, new InventoryTopologyConfigurator());
 builder.Services.AddCore(typeof(Program));
 
 builder.Services.AddTransient<IInventoryRepository, InventoryRepository>();

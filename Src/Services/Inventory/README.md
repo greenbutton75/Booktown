@@ -15,3 +15,14 @@ InventoryInStockEvent (to Catalog)
 InventoryOutOdStockEvent (to Catalog)
 
 
+Add
+	HC (+ Redis)
+	Logging
+
+Data Seed
+
+Redis prefixes
+
+Async method names postfix
+
+More logging
