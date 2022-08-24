@@ -36,23 +36,23 @@ Catalog
 Inventory
 	Redis as DB
 
-Shipment
-	Mongo as DB
 
 Payment
 	Stripe sandbox
 
 PriceCalculator
-	Saves special offers
+	Coupons
 	Time limited discounts
-	Calculates final price
+	Calculates final price (have to store all current prices)
 	Get special offers for specific product
 	? as DB
 
 Recommendations
 	Stores ratings, buy facts, reviews
 	Get ratings, "ALSO BOUGHT", Reviews
-	Cassandra as graph DB
+	Neo4j as graph DB
+
+
 	
 Logging
 	seq

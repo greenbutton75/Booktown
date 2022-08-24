@@ -19,13 +19,20 @@ Yet another book store is what we need. :smiley:
 Ok, let us try to implement `clean architecture`.
 We can play with
 
-- [Orders]()
-- [Catalog]()
-- [Basket]()
-- [Shipment]()
-- [Recommendations]()
-- [Inventory](Src/Services/Inventory/README.md)
+- [Ocelot API Gateway](Src/APIGateway/README.md)
+
 - [Identity service](Src/Services/Identity/README.md)
+- [Orders](Src/Services/Orders/README.md)
+- [Catalog](Src/Services/Catalog/README.md)
+- [Basket](Src/Services/Basket/README.md)
+- [Ratings](Src/Services/Ratings/README.md)
+- [Payments](Src/Services/Payments/README.md)
+- [Inventory](Src/Services/Inventory/README.md)
+- [PriceCalculator](Src/Services/PriceCalculator/README.md)
+- [RatingsAccumulator](Src/Services/RatingsAccumulator/README.md)
+
+- [Basket BFF]()
+- [Order BFF]()
 
 and everything you can think of!
 
@@ -35,7 +42,7 @@ Also we can use the most suitable persistent storages for each service **Relatio
 - `Redis`
 - `Mongo`
 - `Elastic Search`
-- `Cassandra`
+- `Neo4j`
 
 you name it!
 
