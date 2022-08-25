@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 public interface IUserService
 {
-    public Task<UserModel?> Signup(SignupRequest model);
-    public Task<UserModel?> LogIn(LoginRequest model);
+    public Task<UserModel?> SignupAsync(SignupRequest model);
+    public Task<UserModel?> LogInAsync(LoginRequest model);
 
-    public Task<UserModel?> LogInWithFacebook(string token);
-    public Task<UserModel?> LogInWithGoogle(string token);
+    public Task<UserModel?> LogInWithFacebookAsync(string token);
+    public Task<UserModel?> LogInWithGoogleAsync(string token);
 
 }
 

@@ -23,7 +23,7 @@ public class TokenService : ITokenService
         _logger = logger;
     }
 
-    public async Task<TokenModel> GenerateJwtTokens(UserModel user)
+    public async Task<TokenModel> GenerateJwtTokensAsync(UserModel user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
@@ -41,7 +41,7 @@ public class TokenService : ITokenService
         return new TokenModel { Token = tokenHandler.WriteToken(token) , RefreshToken= refreshToken };
     }
 
-    public async Task<TokenModel?> GetRefreshToken(TokenModel tokenModel)
+    public async Task<TokenModel?> GetRefreshTokenAsync(TokenModel tokenModel)
     {
         // Current token can be expired
         JwtSecurityToken jwtToken = CheckToken(tokenModel.Token, false);
@@ -55,7 +55,7 @@ public class TokenService : ITokenService
         {
             refreshTokens[tokenModel.RefreshToken].IsUsed = true;
 
-            return await GenerateJwtTokens(userModel);
+            return await GenerateJwtTokensAsync(userModel);
         }
 
         // If refreshToken is already used - InvalidateUserRefreshTokens
@@ -68,7 +68,7 @@ public class TokenService : ITokenService
 
     }
 
-    public Task RevokeRefreshTokens(string token)
+    public Task RevokeRefreshTokensAsync(string token)
     {
         JwtSecurityToken jwtToken = CheckToken(token, true);
         var userModel = ExtractUserFromToken(jwtToken);

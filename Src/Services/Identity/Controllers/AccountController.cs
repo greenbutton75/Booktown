@@ -33,7 +33,7 @@ namespace Identity.Controllers
         [HttpPost("Signup")]
         public async Task<ActionResult<AuthenticateResponse>> Signup(SignupRequest model)
         {
-            var userModel = await _userService.Signup(model);
+            var userModel = await _userService.SignupAsync(model);
 
             if (userModel == null)
             {
@@ -41,7 +41,7 @@ namespace Identity.Controllers
                 throw new AppException("Signup failed");
             }
 
-            var tokenModel = await _tokenService.GenerateJwtTokens(userModel);
+            var tokenModel = await _tokenService.GenerateJwtTokensAsync(userModel);
 
             return Ok(new AuthenticateResponse(
                 new UserModel
@@ -56,7 +56,7 @@ namespace Identity.Controllers
         [HttpPost("Login")]
         public async Task<ActionResult<AuthenticateResponse>> Login(LoginRequest model, [FromHeader(Name = "X-Forwarded-For")] string clientIP)
         {
-            var userModel = await _userService.LogIn(model);
+            var userModel = await _userService.LogInAsync(model);
 
             if (userModel == null)
             {
@@ -64,7 +64,7 @@ namespace Identity.Controllers
                 throw new AppException("Login failed");
             }
 
-            var tokenModel = await _tokenService.GenerateJwtTokens(userModel);
+            var tokenModel = await _tokenService.GenerateJwtTokensAsync(userModel);
             return Ok(new AuthenticateResponse(userModel,
                 tokenModel.Token!,
                 tokenModel.RefreshToken!
@@ -74,14 +74,14 @@ namespace Identity.Controllers
         [HttpPost("RevokeRefreshTokens")]
         public async Task<ActionResult> RevokeRefreshTokens(string token)
         {
-            await _tokenService.RevokeRefreshTokens(token);
+            await _tokenService.RevokeRefreshTokensAsync(token);
 
             return Ok();
         }
         [HttpPost("GetRefreshToken")]
         public async Task<ActionResult<TokenModel>> GetRefreshToken(TokenModel tokenModel)
         {
-            var tokenModelResponse = await _tokenService.GetRefreshToken(tokenModel);
+            var tokenModelResponse = await _tokenService.GetRefreshTokenAsync(tokenModel);
 
             return Ok(tokenModelResponse);
         }
@@ -89,7 +89,7 @@ namespace Identity.Controllers
         [HttpPost("LogInWithFacebook")]
         public async Task<ActionResult<AuthenticateResponse>> LogInWithFacebook(string token)
         {
-            var userModel = await _userService.LogInWithFacebook(token);
+            var userModel = await _userService.LogInWithFacebookAsync(token);
 
             if (userModel == null)
             {
@@ -97,7 +97,7 @@ namespace Identity.Controllers
                 throw new AppException("Login failed");
             }
 
-            var tokenModel = await _tokenService.GenerateJwtTokens(userModel);
+            var tokenModel = await _tokenService.GenerateJwtTokensAsync(userModel);
             return Ok(new AuthenticateResponse(userModel,
                 tokenModel.Token!,
                 tokenModel.RefreshToken!
@@ -107,7 +107,7 @@ namespace Identity.Controllers
         [HttpPost("LogInWithGoogle")]
         public async Task<ActionResult> LogInWithGoogle(string token)
         {
-            var userModel = await _userService.LogInWithGoogle(token);
+            var userModel = await _userService.LogInWithGoogleAsync(token);
 
             if (userModel == null)
             {
@@ -115,7 +115,7 @@ namespace Identity.Controllers
                 throw new AppException("Login failed");
             }
 
-            var tokenModel = await _tokenService.GenerateJwtTokens(userModel);
+            var tokenModel = await _tokenService.GenerateJwtTokensAsync(userModel);
             return Ok(new AuthenticateResponse(userModel,
                 tokenModel.Token!,
                 tokenModel.RefreshToken!

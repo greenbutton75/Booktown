@@ -12,6 +12,6 @@ InventorySpendEvent (from Saga orchestrator (Orders))
 Send Events
 
 InventoryInStockEvent (to Catalog)
-InventoryOutOdStockEvent (to Catalog)
+InventoryOutOfStockEvent (to Catalog)
 
 

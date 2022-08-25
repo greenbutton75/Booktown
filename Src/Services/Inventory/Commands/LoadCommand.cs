@@ -52,7 +52,7 @@ namespace Inventory.Commands
             {
                 foreach (var item in command.items)
                 {
-                    var dbitem = await _repository.GetItem(item);
+                    var dbitem = await _repository.GetItemAsync(item);
 
                     // If it is a new product or now we have it in stock - send event to Catalog
                     if (dbitem == null || dbitem.Quantity == 0)
@@ -61,7 +61,7 @@ namespace Inventory.Commands
                         {
                             ProductId = item.ProductId
                         };
-                        await _eventBus.Commit(@event);
+                        await _eventBus.CommitAsync(@event);
                     }
 
                     if (dbitem != null)
@@ -73,7 +73,7 @@ namespace Inventory.Commands
                         dbitem = new InventoryItem { ProductId=item.ProductId, Quantity= item.Quantity };
                     }
 
-                    await _repository.UpdateItem(dbitem);
+                    await _repository.UpdateItemAsync(dbitem);
                 }
 
 

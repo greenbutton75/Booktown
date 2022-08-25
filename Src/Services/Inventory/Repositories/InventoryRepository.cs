@@ -17,12 +17,12 @@ public class InventoryRepository : IInventoryRepository
         _database = redis.GetDatabase();
     }
 
-    public async Task UpdateItem(InventoryItem item)
+    public async Task UpdateItemAsync(InventoryItem item)
     {
         await _database.StringSetAsync(item.ProductId, item.Quantity);
     }
 
-    public async Task<InventoryItem> GetItem(InventoryItem item)
+    public async Task<InventoryItem> GetItemAsync(InventoryItem item)
     {
         var data = await _database.StringGetAsync(item.ProductId);
 

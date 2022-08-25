@@ -6,6 +6,6 @@ namespace Infrastructure.Core.Events
     public interface IEventBus
     {
         Task PublishLocal(params IEvent[] events);
-        Task Commit(params IEvent[] events);
+        Task CommitAsync(params IEvent[] events);
     }
 }

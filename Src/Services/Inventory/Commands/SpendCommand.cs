@@ -49,7 +49,7 @@ namespace Inventory.Commands
             }
             public async Task<Unit> Handle(Command command, CancellationToken cancellationToken)
             {
-                var dbitem = await _repository.GetItem(command.item);
+                var dbitem = await _repository.GetItemAsync(command.item);
 
                 if (dbitem != null)
                 {
@@ -67,10 +67,10 @@ namespace Inventory.Commands
                             {
                                 ProductId = command.item.ProductId
                             };
-                            await _eventBus.Commit(@event);
+                            await _eventBus.CommitAsync(@event);
                     }
 
-                    await _repository.UpdateItem(dbitem);
+                    await _repository.UpdateItemAsync(dbitem);
 
                 }
                 else

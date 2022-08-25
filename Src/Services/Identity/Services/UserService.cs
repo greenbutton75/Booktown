@@ -38,7 +38,7 @@ public class UserService : IUserService
     }
 
 
-    public async Task<UserModel?> Signup(SignupRequest model)
+    public async Task<UserModel?> SignupAsync(SignupRequest model)
     {
         var user = await _userManager.FindByEmailAsync(model.Email);
 
@@ -65,7 +65,7 @@ public class UserService : IUserService
         return null;
     }
 
-    public async Task<UserModel?> LogIn(LoginRequest model)
+    public async Task<UserModel?> LogInAsync(LoginRequest model)
     {
         var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
 
@@ -86,7 +86,7 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<UserModel?> LogInWithFacebook(string fbtoken)
+    public async Task<UserModel?> LogInWithFacebookAsync(string fbtoken)
     {
         var validationResult = await _facebookAuthService.ValidateAccessTokenAsync(fbtoken);
         if (validationResult is null || !validationResult.Data.IsValid) throw new AppException("token is invalid");
@@ -119,7 +119,7 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task<UserModel?> LogInWithGoogle(string googletoken)
+    public async Task<UserModel?> LogInWithGoogleAsync(string googletoken)
     {
 
         var userInfo = await _googleAuthService.GetUserInfoAsync(googletoken);

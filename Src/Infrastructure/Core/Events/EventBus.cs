@@ -25,7 +25,7 @@ namespace Infrastructure.Core.Events
             }
         }
 
-        public virtual async Task Commit(params IEvent[] events)
+        public virtual async Task CommitAsync(params IEvent[] events)
         {
             foreach (var @event in events)
             {

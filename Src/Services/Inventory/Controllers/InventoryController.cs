@@ -38,7 +38,7 @@ namespace Inventory.Controllers
 
             var command = new LoadCommand.Command(items);
 
-            await _commandBus.Send(command, cancellationToken);
+            await _commandBus.SendAsync(command, cancellationToken);
 
             return Ok();
         }

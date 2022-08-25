@@ -16,6 +16,7 @@ For `Login` call we pass RemoteIpAddress into `Identity` service to track custom
 
 
 Add new endpoints
+webhook for strip payment
 Token by certificate
 
 

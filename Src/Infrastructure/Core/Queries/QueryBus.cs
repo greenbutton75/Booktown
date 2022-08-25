@@ -14,7 +14,7 @@ namespace Infrastructure.Core.Queries
             _mediator = mediator ?? throw new Exception($"Missing dependency '{nameof(IMediator)}'");   
         }
 
-        public virtual async Task<TResponse> Send<TResponse>(IQuery<TResponse> query, CancellationToken cancellationToken = default)
+        public virtual async Task<TResponse> SendAsync<TResponse>(IQuery<TResponse> query, CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(query);
 

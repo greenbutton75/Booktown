@@ -4,7 +4,7 @@ namespace Inventory.Repositories;
 
 public interface IInventoryRepository
 {
-    Task<InventoryItem> GetItem(InventoryItem item);
-    Task UpdateItem(InventoryItem item);
+    Task<InventoryItem> GetItemAsync(InventoryItem item);
+    Task UpdateItemAsync(InventoryItem item);
 }
 

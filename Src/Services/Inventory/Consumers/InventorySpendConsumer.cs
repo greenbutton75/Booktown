@@ -21,7 +21,7 @@ namespace Inventory.Consumers
 
             var command = new SpendCommand.Command(Mapping.Map<InventorySpendEvent, InventoryItem>(item));
 
-            await _commandBus.Send(command);
+            await _commandBus.SendAsync(command);
         }
 
     }
