@@ -1,0 +1,6 @@
+{
+  "GlobalConfiguration": {
+    "AdministrationPath": "/administration",
+    "BaseUrl": "https://api.booktown.com"
+  }
+}

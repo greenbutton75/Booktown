@@ -1,0 +1,18 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/catalog/v1/GetItem",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": "5077"
+        }
+      ],
+      "UpstreamPathTemplate": "/GetItem",
+      "UpstreamHttpMethod": [
+        "POST"
+      ]
+    }
+  ]
+}

@@ -14,7 +14,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Configuration.AddJsonFile($"Ocelot.{builder.Environment.EnvironmentName}.json");
+//builder.Configuration.AddJsonFile($"Ocelot.{builder.Environment.EnvironmentName}.json");
+builder.Configuration.AddOcelot($"Configurations/{builder.Environment.EnvironmentName}/", builder.Environment);
+
 
 var key = Encoding.ASCII.GetBytes(builder.Configuration["AppSettings:JWTSecret"]);
 
