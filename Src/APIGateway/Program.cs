@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using System.Security.Cryptography;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,22 +15,39 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Configuration.AddJsonFile($"Ocelot.{builder.Environment.EnvironmentName}.json");
 builder.Configuration.AddOcelot($"Configurations/{builder.Environment.EnvironmentName}/", builder.Environment);
 
 
-var key = Encoding.ASCII.GetBytes(builder.Configuration["AppSettings:JWTSecret"]);
+SecurityKey securityKey = null;
+if (!string.IsNullOrEmpty(builder.Configuration["AppSettings:JWTSecret"]) && string.IsNullOrEmpty(builder.Configuration["AppSettings:JWTRSAPublicKey"]))
+{
+    var key = Encoding.ASCII.GetBytes(builder.Configuration["AppSettings:JWTSecret"]);
+    securityKey = new SymmetricSecurityKey(key);
+}
+if (!string.IsNullOrEmpty(builder.Configuration["AppSettings:JWTRSAPublicKey"]))
+{
+    var publicKey = Convert.FromBase64String(builder.Configuration["AppSettings:JWTRSAPublicKey"]);
 
-builder.Services.AddAuthentication(option => {
+    RSA rsa = RSA.Create();
+    rsa.ImportSubjectPublicKeyInfo(publicKey, out _);
+    securityKey = new RsaSecurityKey(rsa);
+}
+
+
+
+
+builder.Services.AddAuthentication(option =>
+{
     option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme; 
-}).AddJwtBearer("ProviderKey", options => {
+    option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer("ProviderKey", options =>
+{
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
-    options.MapInboundClaims = true;    
+    options.MapInboundClaims = true;
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        IssuerSigningKey = new SymmetricSecurityKey(key),
+        IssuerSigningKey = securityKey,
         ValidateAudience = false,
         ValidateIssuer = false,
         ValidateIssuerSigningKey = true

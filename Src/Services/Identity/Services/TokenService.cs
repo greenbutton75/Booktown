@@ -3,6 +3,7 @@ namespace Identity.Services;
 using System.Collections.Concurrent;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Identity.Helpers;
@@ -26,7 +27,28 @@ public class TokenService : ITokenService
     public async Task<TokenModel> GenerateJwtTokensAsync(UserModel user)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
-        var key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
+
+        SigningCredentials signingCredentials = null;
+
+        if (!string.IsNullOrEmpty(_appSettings.JWTSecret) && string.IsNullOrEmpty(_appSettings.JWTRSAPrivateKey))
+        {
+            var key = Encoding.ASCII.GetBytes(_appSettings.JWTSecret);
+            signingCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature);
+        }
+
+        if (!string.IsNullOrEmpty(_appSettings.JWTRSAPrivateKey))
+        {
+            var privateKey = Convert.FromBase64String(_appSettings.JWTRSAPrivateKey);
+
+            RSA rsa = RSA.Create();
+            rsa.ImportRSAPrivateKey(privateKey, out _);
+
+            signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256)
+            {
+                CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false }
+            };
+        }
+
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(new[] { 
@@ -34,8 +56,9 @@ public class TokenService : ITokenService
                 new Claim("Booktown_email", user.Email.ToString())
             }),
             Expires = DateTime.UtcNow.AddMinutes(_appSettings.TokenValidityInMinutes),
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            SigningCredentials = signingCredentials
         };
+
         var token = tokenHandler.CreateToken(tokenDescriptor);
         var refreshToken = await CreateRefreshToken(user);
         return new TokenModel { Token = tokenHandler.WriteToken(token) , RefreshToken= refreshToken };
