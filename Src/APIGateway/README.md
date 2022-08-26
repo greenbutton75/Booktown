@@ -10,13 +10,13 @@ Also we could leverage Route authentication feature to validate JWT and pass int
 For `Login` call we pass RemoteIpAddress into `Identity` service to track customers geo information.
 
 
+## Using RSA for JWT
 
-
-
+To add more security to JWT solution we'll use Asymmetric algorithm to validate token signature.
+[Details in Identity service article](../Services/Identity/README.md)
 
 
 Add new endpoints
 webhook for strip payment
-Token by certificate
 
 
