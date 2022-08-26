@@ -1,4 +1,4 @@
-# APIGateway
+# APIGateway service
 
 ## Architectural overview
 

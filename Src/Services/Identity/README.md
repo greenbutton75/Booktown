@@ -1,4 +1,4 @@
-# Identity
+# Identity service
 
 Of course there are some full-fledged Authentication services we can use like `IdentityServer4` but they do all the magic behind the curtain.
 But I want to show some internal "kitchen" of Authentication process. Like JWT token creation and using third-party identity provider like Google or Facebook.
