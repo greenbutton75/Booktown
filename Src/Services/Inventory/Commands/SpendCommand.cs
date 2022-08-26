@@ -25,8 +25,6 @@ namespace Inventory.Commands
             }
         }
 
-
-
         public class Validator : AbstractValidator<Command>
         {
             public Validator()
