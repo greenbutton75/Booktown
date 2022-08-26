@@ -3,7 +3,7 @@
 This is a very simple service - we need to track amount of items in warehouse.
 We'll keep it simple - only one warehouse site, no items reservations.
 
-![Architecture](img/Inventory-architecture.png)
+![Architecture](../../../img/Inventory-architecture.png)
 
 ## REST Calls
 
