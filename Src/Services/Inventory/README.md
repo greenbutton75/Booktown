@@ -26,7 +26,6 @@ Since we need to store very simple key-value pairs - `Redis` is all we need here
 
 data seeding
 
-make HC
 
 Rabbit settings to config file
 C:\Users\Valentin Kolesov\source\repos\Booktown\Src\Infrastructure\MessageBrokers\MessageBrokersExtensions.cs

@@ -12,7 +12,7 @@ using Serilog;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
-string AppName = "Identity";
+string AppName = typeof(Program).Assembly.GetName().Name;
 
 var configuration = GetConfiguration();
 
