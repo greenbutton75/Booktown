@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ratings", "Services\Ratings\Ratings.csproj", "{8C9956DF-A8F9-43A5-80FA-C691D130F0E3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket", "Services\Basket\Basket.csproj", "{BA9B28DA-7D49-414D-B7C6-7D62722B74F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{8C9956DF-A8F9-43A5-80FA-C691D130F0E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C9956DF-A8F9-43A5-80FA-C691D130F0E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C9956DF-A8F9-43A5-80FA-C691D130F0E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA9B28DA-7D49-414D-B7C6-7D62722B74F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA9B28DA-7D49-414D-B7C6-7D62722B74F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA9B28DA-7D49-414D-B7C6-7D62722B74F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA9B28DA-7D49-414D-B7C6-7D62722B74F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -55,6 +61,7 @@ Global
 		{A39F8423-9F8E-4A44-9F00-58E7BC499166} = {D4465D98-D715-4406-AC79-6EFC53F89AFA}
 		{4786C9D3-F684-4AAB-ABBC-6454F1FCDBAA} = {D4465D98-D715-4406-AC79-6EFC53F89AFA}
 		{8C9956DF-A8F9-43A5-80FA-C691D130F0E3} = {D4465D98-D715-4406-AC79-6EFC53F89AFA}
+		{BA9B28DA-7D49-414D-B7C6-7D62722B74F1} = {D4465D98-D715-4406-AC79-6EFC53F89AFA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {00C1D495-CA6C-4391-B2A7-C43DB38B9C5B}

@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package BasketProto;
+
+// The basket service definition.
+service BasketTransport {
+  rpc GetBasket (BasketRequest) returns (BasketReply);
+}
+
+message BasketRequest {
+  string name = 1;
+}
+
+message BasketReply {
+  string message = 1;
+}

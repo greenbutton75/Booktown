@@ -4,6 +4,6 @@ namespace Ratings.Repositories;
 
 public interface IRatingsRepository
 {
-    Task<List<RatingItem>> GetRatingsForItemAsync(string ProductId, int Rating);
+    Task<List<RatingItem>> GetReviewsForItemAsync(string ProductId, int Rating);
 }
 

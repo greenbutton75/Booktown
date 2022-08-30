@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ratings.Queries
 {
-    public class GetProductRatingsQuery
+    public class GetProductReviewsQuery
     {
         public class Query : IQuery<Result>
         {
@@ -42,7 +42,7 @@ namespace Ratings.Queries
 
             public async Task<Result> Handle(Query query, CancellationToken cancellationToken)
             {
-                var ratings = await _repository.GetRatingsForItemAsync(query.ProductId, query.Rating);
+                var ratings = await _repository.GetReviewsForItemAsync(query.ProductId, query.Rating);
 
                 var result = new Result
                 {

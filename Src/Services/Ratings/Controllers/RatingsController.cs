@@ -60,10 +60,11 @@ namespace Ratings.Controllers
         }
         */
         
-        [HttpGet("GetAll/{ProductID}/{Rating}")]
-        public async Task<ActionResult<GetProductRatingsQuery.Result>> Get(string ProductID, int Rating, CancellationToken cancellationToken)
+        [HttpGet("GetProductReviews/{ProductID}/{Rating}")]
+        [ResponseCache(Duration = 10)]
+        public async Task<ActionResult<GetProductReviewsQuery.Result>> Get(string ProductID, int Rating, CancellationToken cancellationToken)
         {
-            var query = new GetProductRatingsQuery.Query
+            var query = new GetProductReviewsQuery.Query
             {
                 ProductId = ProductID,
                 Rating = Rating
