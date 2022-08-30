@@ -1,5 +1,4 @@
-﻿using Basket.Models;
-using BasketProto;
+﻿using BasketProto;
 
 namespace Basket.Repositories;
 

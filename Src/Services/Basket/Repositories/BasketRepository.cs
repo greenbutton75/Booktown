@@ -1,6 +1,5 @@
 using Infrastructure.Core.Exceptions;
 using Infrastructure.Core.Extensions;
-using Basket.Models;
 using StackExchange.Redis;
 using BasketProto;
 using Google.Protobuf;
