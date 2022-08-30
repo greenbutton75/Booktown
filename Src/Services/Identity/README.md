@@ -5,14 +5,14 @@ But I want to show some internal "kitchen" of Authentication process. Like JWT t
 
 So we do all the heavy lifting ourselves :)
 
-Great JWT Authentication Tutorial is here ([.NET 6.0 - JWT Authentication Tutorial with Example API](https://jasonwatmore.com/post/2021/12/14/net-6-jwt-authentication-tutorial-with-example-api))
+Great JWT Authentication Tutorial is here [.NET 6.0 - JWT Authentication Tutorial with Example API](https://jasonwatmore.com/post/2021/12/14/net-6-jwt-authentication-tutorial-with-example-api)
 
-Thanks Nick Chapsas for ([great Youtube video](https://www.youtube.com/watch?v=I2PChWTwmM8&t=1318s)) with explanations how to use third-party identity provider
+Thanks Nick Chapsas for [great Youtube video](https://www.youtube.com/watch?v=I2PChWTwmM8&t=1318s) with explanations how to use third-party identity provider
 
 We'll use AWS Cognito service but only for storing users in user pool.
 
 Also we'll implement Refresh token and add some extra security - Refresh Token Automatic Reuse Detection
-([What Are Refresh Tokens and How to Use Them Securely](https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/))
+[What Are Refresh Tokens and How to Use Them Securely](https://auth0.com/blog/refresh-tokens-what-are-they-and-when-to-use-them/)
 
 ## Using RSA for JWT
 

@@ -38,7 +38,7 @@ Since we need to store bunch of nodes and links - we need a graph DB.
 Neo4j is an obvious choice.
 
 With this DB we can do amazing things right out of the box - with relatively simple Cypher queries we can build recommendation system based on user individual preferences.
-We can implement ([Community detection](https://neo4j.com/docs/graph-data-science/current/algorithms/community/)) and make special offers for community members.
+We can implement [Community detection](https://neo4j.com/docs/graph-data-science/current/algorithms/community/) and make special offers for community members.
 Identify trenging products or most active reviewers. All this is a gold mine for marketing department!
 There are a lot of ideas, but we'll implement only couple of them.
 

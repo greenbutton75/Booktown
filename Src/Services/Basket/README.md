@@ -29,7 +29,7 @@ Parsing is also simple. Each generated class has a static Parser property which 
         var basket = UserBasket.Parser.ParseFrom (data);
 ```
 
-You can find performance and memory footprint comparisons here ([Protobuf In C# .NET Part 4 Performance Comparisons](https://dotnetcoretutorials.com/2022/01/18/protobuf-in-c-net-part-4-performance-comparisons/))
+You can find performance and memory footprint comparisons here [Protobuf In C# .NET Part 4 Performance Comparisons](https://dotnetcoretutorials.com/2022/01/18/protobuf-in-c-net-part-4-performance-comparisons/)
 
 ## gRPC Calls
 
