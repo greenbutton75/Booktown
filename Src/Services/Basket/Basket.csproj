@@ -27,7 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="..\..\Infrastructure\Core\Proto\greet.proto" GrpcServices="Server" Link="Protos\greet.proto" />
+    <Protobuf Include="..\..\Infrastructure\Core\Proto\basket.proto" GrpcServices="Server" Link="Protos\basket.proto" />
 
     <PackageReference Include="Grpc.AspNetCore" Version="$(GrpcDotNetPackageVersion)" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.48.0" />

@@ -1,10 +1,12 @@
 ﻿using Basket.Models;
+using BasketProto;
 
 namespace Basket.Repositories;
 
 public interface IBasketRepository
 {
-    Task<BasketItem> GetItemAsync(BasketItem item);
-    Task UpdateItemAsync(BasketItem item);
+    public Task<UserBasket?> GetBasketAsync(string email);
+    public Task<UserBasket> SetBasketAsync(UserBasket basket);
+    public Task<UserBasket?> DeleteBasketAsync(string email);
 }
 

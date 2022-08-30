@@ -2,6 +2,9 @@ using Infrastructure.Core.Exceptions;
 using Infrastructure.Core.Extensions;
 using Basket.Models;
 using StackExchange.Redis;
+using BasketProto;
+using Google.Protobuf;
+using Google.Protobuf.WellKnownTypes;
 
 namespace Basket.Repositories;
 
@@ -19,19 +22,55 @@ public class BasketRepository : IBasketRepository
         _database = redis.GetDatabase();
     }
 
-    public async Task UpdateItemAsync(BasketItem item)
+    public async Task<UserBasket> SetBasketAsync(UserBasket basket)
     {
-        await _database.StringSetAsync(keyPrefix + item.ProductId, item.Quantity);
+        var key = keyPrefix + basket.Email;
+        bool basketExists = await _database.KeyExistsAsync(key);
+        if (!basketExists)
+        {
+            basket.Id = Guid.NewGuid().ToString();
+            basket.Created = Timestamp.FromDateTime(DateTime.UtcNow);
+        }
+
+        var byteArray = ProtoToByteArray(basket);
+        await _database.StringSetAsync(key, byteArray);
+
+        return basket;
     }
 
-    public async Task<BasketItem> GetItemAsync(BasketItem item)
+    public async Task<UserBasket?> GetBasketAsync(string email)
     {
-        var data = await _database.StringGetAsync(keyPrefix + item.ProductId);
+        var key = keyPrefix + email;
+        bool basketExists = await _database.KeyExistsAsync(key);
+        if (!basketExists) return  null;
 
-        if (data.IsNullOrEmpty)
-        {
-            return null;
-        }
-        return new BasketItem { ProductId = item.ProductId.RemovePrefix(keyPrefix), Quantity = Int32.Parse(data) };
+        var data = await _database.StringGetAsync(key);
+
+        var basket = UserBasket.Parser.ParseFrom (data);
+
+        return basket;
+    }
+    public async Task<UserBasket?> DeleteBasketAsync(string email)
+    {
+        var key = keyPrefix + email;
+        bool basketExists = await _database.KeyExistsAsync(key);
+        if (!basketExists) return null;
+
+        var data = await _database.StringGetAsync(key);
+
+        var basket = UserBasket.Parser.ParseFrom(data);
+
+        await _database.KeyDeleteAsync(key);
+
+        return basket;
+    }
+
+    private byte[] ProtoToByteArray(IMessage message)
+    {
+        int size = message.CalculateSize();
+        byte[] buffer = new byte[size];
+        CodedOutputStream output = new CodedOutputStream(buffer);
+        message.WriteTo(output);
+        return buffer;
     }
 }

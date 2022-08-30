@@ -60,7 +60,7 @@ app.UseAuthorization();
 
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapGrpcService<GreeterService>();
+    endpoints.MapGrpcService<GrpcBasketService>();
     endpoints.MapGrpcReflectionService();
 }); 
 

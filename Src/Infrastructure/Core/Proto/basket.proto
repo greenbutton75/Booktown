@@ -2,15 +2,49 @@ syntax = "proto3";
 
 package BasketProto;
 
-// The basket service definition.
-service BasketTransport {
-  rpc GetBasket (BasketRequest) returns (BasketReply);
+import "google/protobuf/timestamp.proto";
+
+service GrpcBasket {
+  rpc GetBasket (GetBasketRequest) returns (GetBasketReply);
+  rpc SetBasket (SetBasketRequest) returns (SetBasketReply);
+  rpc DeleteBasket (DeleteBasketRequest) returns (DeleteBasketReply);
 }
 
-message BasketRequest {
-  string name = 1;
+message BasketItem {
+	string productid = 1;
+	string name = 2;
+	string description = 3;
+	int32 price = 4;
+	int32 quantity = 5;
 }
 
-message BasketReply {
-  string message = 1;
+message UserBasket {
+	string email = 1;
+	string id = 2;
+	google.protobuf.Timestamp created = 3;
+	repeated BasketItem items = 4;
+	string coupon = 5;
+	repeated string receipt = 6;
+	int32 total = 7;
+}
+
+message GetBasketRequest {
+  string email = 1;
+}
+message GetBasketReply {
+  UserBasket basket = 1;
+}
+
+message SetBasketRequest {
+  UserBasket basket = 1;
+}
+message SetBasketReply {
+  UserBasket basket = 1;
+}
+
+message DeleteBasketRequest {
+  string email = 1;
+}
+message DeleteBasketReply {
+  UserBasket basket = 1;
 }
