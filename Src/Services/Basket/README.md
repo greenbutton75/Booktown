@@ -1,6 +1,9 @@
 # Basket service
 
-This is a very simple service - we need to store and retrieve user basket from database fast. Very fast.
+This is a very simple service - we need to store and retrieve user basket from database fast. 
+
+Very fast.
+
 So we'll use `Redis` as a storage and `protobuf` Serializing instead of JSON Serializing/Deserializing.
 
 ![Architecture](../../../img/Basket-architecture.png)
@@ -30,9 +33,9 @@ You can find performance and memory footprint comparisons here ([Protobuf In C# 
 
 ## gRPC Calls
 
-GetBasket (from BFF)
-SetBasket (from BFF)
-DeleteBasket (from BFF)
+- GetBasket (from BFF)
+- SetBasket (from BFF)
+- DeleteBasket (from BFF)
 
 ## Persistent storage
 
